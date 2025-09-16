@@ -1,2 +1,2 @@
 [workspace]
-members = ["factorial"]
+members = ["1-factorial", "2-currency", "3-topdown-triangle"]

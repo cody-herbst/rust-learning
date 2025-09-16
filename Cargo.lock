@@ -3,5 +3,13 @@
 version = 4
 
 [[package]]
+name = "currency"
+version = "0.1.0"
+
+[[package]]
 name = "factorial"
+version = "0.1.0"
+
+[[package]]
+name = "topdown-triangle"
 version = "0.1.0"
