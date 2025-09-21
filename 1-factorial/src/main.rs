@@ -1,4 +1,5 @@
 use std::io;
+use num_bigint::BigUint;
 
 fn main() {
 
@@ -23,7 +24,7 @@ fn main() {
         }
     }
 
-    let mut product : u64 = 1;
+    let mut product : BigUint = BigUint::from(1u64);
 
     for i in 1..=num {
         product *= i
