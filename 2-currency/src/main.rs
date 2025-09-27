@@ -1,4 +1,11 @@
-use std::env;
+mod file;
+
+
+use std::io::{copy, Write};
+use std::process::exit;
+
+
+const LINK: &str = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
 
 enum Currency {
     USD,
@@ -10,13 +17,10 @@ enum Currency {
 fn main() {
     println!("Hello, world!");
 
-    let mut dir : Option<String> = Option::None;
-    match env::current_dir() {
-        Ok(path) => {
-            let dir_string = path.into_os_string().into_string().unwrap();
-            dir = Some(dir_string);
-        },
-        Err(error) => {}
+    match file::download_file() {
+        Ok(currency) => {println!("file downloaded: {:?}", currency)},
+        Err(err) => {eprintln!("{}", err); exit(1);}
     }
-
 }
+
+
