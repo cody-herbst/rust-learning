@@ -1,10 +1,16 @@
 use std::{env, fs};
 use std::io::Write;
 use std::path::Path;
+use std::time::SystemTime;
+use chrono::{DateTime, Local};
 use reqwest::blocking::get;
+use anyhow::Result;
 use crate::LINK;
 
-pub fn download_file() -> anyhow::Result<String> {
+pub fn download_file() -> Result<String> {
+
+    let download_dir = &"download";
+    let file_name = &"latest.xml";
 
     let mut dir: Option<String> = None;
     match env::current_dir() {
@@ -16,15 +22,20 @@ pub fn download_file() -> anyhow::Result<String> {
         }
     }
 
-    let download_dir = Path::new(&dir.unwrap()).join("download");
-
-    if !Path::new(&download_dir).exists() {
-        fs::create_dir_all(&download_dir)?;
+    // check if the file is up to date
+    let file = Path::new(&dir.unwrap()).join(download_dir).join(file_name);
+    if fs::exists(&file)? {
+        let time = fs::metadata(&file)?.modified()?;
+        let date : DateTime<Local> = time.into();
+        if date.date_naive() == Local::now().date_naive() {
+            return Ok(fs::read_to_string(file)?)
+        }
     }
 
+    // file doesn't exist or is out of date
     let response = get(LINK)?.bytes()?;
-
-    let file = fs::File::create(download_dir.join("latest.xml"));
+    fs::create_dir_all(download_dir)?;
+    let file = fs::File::create(&file);
     match file {
         Ok(mut file) => {
             file.write_all(response.as_ref())?

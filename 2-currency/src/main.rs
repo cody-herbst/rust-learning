@@ -1,7 +1,7 @@
 mod file;
 
 
-use std::io::{copy, Write};
+use std::io::{ Write};
 use std::process::exit;
 
 
