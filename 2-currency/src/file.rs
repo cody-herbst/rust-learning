@@ -44,5 +44,5 @@ pub fn download_file() -> Result<String> {
         }
     }
 
-    Ok(String::from("so"))
+     Ok(String::from_utf8(response.to_vec())?)
 }
