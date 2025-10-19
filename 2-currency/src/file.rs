@@ -1,7 +1,6 @@
 use std::{env, fs};
 use std::io::Write;
 use std::path::Path;
-use std::time::SystemTime;
 use chrono::{DateTime, Local};
 use reqwest::blocking::get;
 use anyhow::Result;
